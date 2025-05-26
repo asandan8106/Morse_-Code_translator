@@ -34,7 +34,8 @@ morse-code-translator/
 ├── translator.py            # Terminal-based Python app
 ├── screenshot.png           # UI preview image (optional)
 └── README.md                # Project info
-🧪 Run Instructions
+
+##🧪 Run Instructions
 ✅ Web App
 Clone the repository:
 
@@ -50,18 +51,18 @@ python -m http.server
 🐍 Terminal (Python) Version
 Make sure Python is installed (python --version).
 
-Run the script:
+##Run the script:
 
 
 C:\Users\Capaciti\AppData\Local\Programs\Python\Python311\python.exe translator.py
 ✅ Works in most terminal environments (Windows, macOS, Linux).
 
-🛠️ Tech Stack
+##🛠️ Tech Stack
 Frontend: HTML5, CSS3, JavaScript (Vanilla)
 
 Backend (CLI): Python 3
 
-📋 TODO / Ideas
+##📋 TODO / Ideas
 🎙️ Decode Morse from microphone input
 
 📤 Export translated text as .txt file
