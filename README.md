@@ -35,22 +35,19 @@ morse-code-translator/
 ├── screenshot.png           # UI preview image (optional)
 └── README.md                # Project info
 
-##🧪 Run Instructions
+🧪 Run Instructions
 ✅ Web App
 Clone the repository:
-
 
 git clone https://github.com/your-username/morse-code-translator.git
 cd morse-code-translator
 Open index.html in your web browser.
 
-💡 You can also serve it locally with:
-
-
+💡 Or serve it locally using Python:
 python -m http.server
-🐍 Terminal (Python) Version
-Make sure Python is installed (python --version).
 
+🐍 Terminal (Python) Version
+Make sure Python is installed:
 ##Run the script:
 
 
