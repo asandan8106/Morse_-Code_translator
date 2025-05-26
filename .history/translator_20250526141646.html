@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Morse Code Translator</title>
+  <style>
+    :root {
+      --primary-color: #007BFF;
+      --primary-hover: #3399ff;
+      --background-light: #f4f6f8;
+      --background-dark: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #eee;
+      --container-bg-light: #fff;
+      --container-bg-dark: #2c2c2c;
+      --output-bg-light: #f1f3f5;
+      --output-bg-dark: #444;
+      --error-color: #d9534f;
+      --success-color: #28a745;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background-light);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background: var(--background-dark);
+      color: var(--text-dark);
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .container {
+      background: var(--container-bg-light);
+      padding: 1.5rem 1.75rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      width: 100%;
+      max-width: 600px;
+      box-sizing: border-box;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark .container {
+      background: var(--container-bg-dark);
+    }
+
+    textarea {
+      width: 100%;
+      height: 140px;
+      font-size: 1.1rem;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #ccc;
+      resize: vertical;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      background: inherit;
+      color: inherit;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px var(--primary-color);
+      background: inherit;
+      color: inherit;
+    }
+
+    .options {
+      margin: 0.75rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .options label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    button {
+      flex: 1 1 130px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--primary-color);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    button:hover,
+    button:focus {
+      background-color: var(--primary-hover);
+      outline: none;
+    }
+
+    #output {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: var(--output-bg-light);
+      border-radius: 8px;
+      min-height: 60px;
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+      user-select: text;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark #output {
+      background: var(--output-bg-dark);
+      color: var(--text-dark);
+    }
+
+    .signal-light {
+      width: 18px;
+      height: 18px;
+      background: gray;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 8px;
+      box-shadow: 0 0 8px transparent;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .signal-on {
+      background: #dc3545;
+      box-shadow: 0 0 12px #dc3545;
+    }
+
+    .error {
+      color: var(--error-color);
+      margin-top: 0.6rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .success {
+      color: var(--success-color);
+      margin-top: 0.6rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .toggle-theme {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      transition: background-color 0.3s;
+      z-index: 100;
+    }
+
+    .toggle-theme:hover {
+      background: var(--primary-hover);
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Morse Code Translator</h1>
+  <div class="container" role="main">
+    <textarea id="input" aria-label="Input text area for English or Morse code" placeholder="Type English or Morse code..."></textarea>
+
+    <div class="options">
+      <label for="autoMode">
+        <input type="checkbox" id="autoMode" checked />
+        Auto Mode (Detect & Translate)
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button type="button" id="toMorseBtn" title="Translate English text to Morse code">To Morse</button>
+      <button type="button" id="toEnglishBtn" title="Translate Morse code to English text">To English</button>
+      <button type="button" id="playSoundBtn" title="Play Morse code sound"><span>Play</span> <span class="signal-light" id="signal"></span></button>
+      <button type="button" id="clearBtn" title="Clear input and output fields">Clear</button>
+      <button type="button" id="copyBtn" title="Copy output to clipboard">Copy Output</button>
+    </div>
+
+    <div id="output" aria-live="polite" aria-atomic="true"></div>
+    <div id="message" role="alert" aria-live="assertive"></div>
+  </div>
+
+  <button class="toggle-theme" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">Dark Mode</button>
+
+  <script>
+    (function(){
+      const morseDict = {
+        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..',
+        'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
+        'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+        'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
+        'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+        'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+        'Y': '-.--', 'Z': '--..',
+        '0': '-----', '1': '.----', '2': '..---', '3': '...--',
+        '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+        '8': '---..', '9': '----.',
+        ' ': '/', '-': '-....-', '!': '-.-.--', '.': '.-.-.-', '?': '..--..'
+      };
+
+      const reverseMorseDict = Object.fromEntries(
+        Object.entries(morseDict).map(([k, v]) => [v, k])
+      );
+
+      const inputField = document.getElementById("input");
+      const outputField = document.getElementById("output");
+      const signal = document.getElementById("signal");
+      const message = document.getElementById("message");
+      const autoModeCheckbox = document.getElementById("autoMode");
+      const themeToggle = document.getElementById("themeToggle");
+
+      // Utility: show message (error or success)
+      function showMessage(text, type='error', timeout=2500) {
+        message.textContent = text;
+        message.className = type;
+        if(timeout > 0) {
+          setTimeout(() => {
+            message.textContent = '';
+            message.className = '';
+          }, timeout);
+        }
+      }
+
+      function isMorse(input) {
+        return /^[.\- \/]+$/.test(input.trim());
+      }
+
+      function autoTranslate() {
+        const input = inputField.value.trim();
+        if (input === '') {
+          outputField.textContent = '';
+          return;
+        }
+        if (isMorse(input)) {
+          translateToEnglish();
+        } else {
+          translateToMorse();
+        }
+      }
+
+      function translateToMorse() {
+        const text = inputField.value.toUpperCase();
+        if (!text) {
+          outputField.textContent = '';
+          return;
+        }
+        let morse = '';
+        for (const ch of text) {
+          if (ch in morseDict) {
+            morse += morseDict[ch] + ' ';
+          } else {
+            morse += '? ';
+          }
+        }
+        outputField.textContent = morse.trim();
+      }
+
+      function translateToEnglish() {
+        const code = inputField.value.trim().split(' ');
+        if (code.length === 0 || (code.length === 1 && code[0] === '')) {
+          outputField.textContent = '';
+          return;
+        }
+        let text = '';
+        for (const symbol of code) {
+          text += reverseMorseDict[symbol] || '?';
+        }
+        outputField.textContent = text;
+      }
+
+      function clearFields() {
+        inputField.value = '';
+        outputField.textContent = '';
+        message.textContent = '';
+      }
+
+      // Copy output text to clipboard
+      function copyOutput() {
+        const text = outputField.textContent;
+        if (!text) {
+          showMessage('Nothing to copy.', 'error');
+          return;
+        }
+        navigator.clipboard.writeText(text).then(() => {
+          showMessage('Output copied to clipboard!', 'success');
+        }).catch(() => {
+          showMessage('Failed to copy.', 'error');
+        });
+      }
+
+      // Play Morse code sound with blinking light
+      function playSound() {
+        const morse = outputField.textContent.trim();
+        if (!morse || !isMorse(morse)) {
+          showMessage('Output is not valid Morse code!', 'error');
+          return;
+        }
+
+        const context = new (window.AudioContext || window.webkitAudioContext)();
+        let i = 0;
+
+        function blink(on) {
+          if (on) {
+            signal.classList.add('signal-on');
+          } else {
+            signal.classList.remove('signal-on');
+          }
+        }
+
+        function beep(duration, freq, callback) {
+          blink(true);
+          const osc = context.createOscillator();
+          const gain = context.createGain();
+          osc.connect(gain);
+          gain.connect(context.destination);
+          osc.frequency.value = freq;
+          osc.start();
+          setTimeout(() => {
+            osc.stop();
+            blink(false);
+            callback();
+          }, duration);
+        }
+
+        function playNext() {
+          if (i >= morse.length) {
+            blink(false);
+            return;
+          }
+          const char = morse[i++];
+          if (char === '.') {
+            beep(120, 750, () => setTimeout(playNext, 100));
+          } else if (char === '-') {
+            beep(360, 750, () => setTimeout(playNext, 100));
+          } else if (char === ' ') {
+            setTimeout(playNext, 150);
+          } else if (char === '/') {
+            setTimeout(playNext, 400);
+          } else {
+            // Unknown char, skip
+            setTimeout(playNext, 100);
+          }
+        }
+
+        playNext();
+      }
+
+      // Event listeners
+      inputField.addEventListener("input", () => {
+        if (autoModeCheckbox.checked) {
+          autoTranslate();
+        }
+      });
+
+      document.getElementById('toMorseBtn').addEventListener('click', () => {
+        translateToMorse();
+      });
+
+      document.getElementById('toEnglishBtn').addEventListener('click', () => {
+        translateToEnglish();
+      });
+
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        clearFields();
+      });
+
+      document.getElementById('playSoundBtn').addEventListener('click', () => {
+        playSound();
+      });
+
+      document.getElementById('copyBtn').addEventListener('click', () => {
+        copyOutput();
+      });
+
+      // Dark mode toggle
+      themeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark');
+        themeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        themeToggle.setAttribute('aria-pressed', isDark);
+      });
+
+    })();
+  </script>
+</body>
+</html>

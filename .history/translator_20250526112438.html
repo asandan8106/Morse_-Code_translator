@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morse Code Translator</title>
+  <style>
+    :root {
+      --red: #d10000;       /* Absa Red */
+      --green: #2ecc71;     /* Money Green */
+      --gray: #f7f7f7;      /* Background */
+      --black: #222;        /* Text */
+      --accent: #f8d7da;    /* Light red/pinkish */
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--gray);
+      padding: 30px;
+      text-align: center;
+      color: var(--black);
+    }
+
+    h1 {
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+
+    select, textarea, button {
+      width: 80%;
+      max-width: 600px;
+      margin: 10px auto;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      display: block;
+    }
+
+    button {
+      background: var(--green);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #27ae60;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border: 1px dashed var(--red);
+      font-weight: bold;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔤 Morse Code Translator</h1>
+
+  <select id="mode">
+    <option value="toMorse">English to Morse</option>
+    <option value="fromMorse">Morse to English</option>
+  </select>
+
+  <textarea id="input" placeholder="Type here..."></textarea>
+
+  <button onclick="translate()">Translate</button>
+
+  <div id="output"></div>
+
+  <script>
+    const morseDict = {
+      'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..',
+      'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
+      'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+      'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
+      'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+      'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+      'Y': '-.--', 'Z': '--..',
+      '1': '.----', '2': '..---', '3': '...--',
+      '4': '....-', '5': '.....', '6': '-....',
+      '7': '--...', '8': '---..', '9': '----.', '0': '-----',
+      ' ': '/', '-': '-....-', '!': '-.-.--', '.': '.-.-.-', '?': '..--..'
+    };
+
+    const reverseDict = Object.fromEntries(
+      Object.entries(morseDict).map(([k, v]) => [v, k])
+    );
+
+    function translate() {
+      const mode = document.getElementById('mode').value;
+      const input = document.getElementById('input').value.trim();
+      let result = '';
+
+      if (mode === 'toMorse') {
+        result = input.toUpperCase().split('').map(char => morseDict[char] || '?').join(' ');
+      } else {
+        result = input.split(' ').map(code => reverseDict[code] || '?').join('');
+      }
+
+      document.getElementById('output').textContent = result;
+    }
+  </script>
+
+</body>
+</html>
