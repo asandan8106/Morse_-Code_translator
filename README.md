@@ -1,1 +1,84 @@
-# Morse_-Code_translator
+# 📡 Morse Code Translator 🔤
+
+A dual-interface Morse Code Translator that works both as a **web app** (with GUI) and a **Python terminal program** — allowing users to convert English ⇄ Morse Code, play beeps, toggle dark mode, and even adjust playback volume.
+
+---
+
+## 🚀 Features
+
+### 🌐 Web App (HTML/CSS/JS)
+- 🔄 Encode & Decode: **English ⇄ Morse Code**
+- 🔊 Play Morse Code as **sound** with blinking signal light
+- 🎛️ Adjustable **volume control**
+- 🌗 Toggle between **Light and Dark Mode**
+- 🤖 **Auto-detect** input type (Morse or English)
+- 🧹 One-click **Clear** button
+- 📱 Fully **responsive** for mobile & desktop
+
+### 🖥️ Terminal App (Python CLI)
+- 📥 Enter text via terminal
+- 🔄 Translate **text ⇄ Morse**
+- 🔊 Optional beep playback for Morse output (using `winsound` or `playsound`)
+- 📜 Simple menu-based interface
+- 🔁 Loop until user chooses to exit
+
+---
+
+
+## 📂 Project Structure
+
+```plaintext
+morse-code-translator/
+├── index.html               # Web version
+├── style.css                # Optional external CSS
+├── script.js                # Web app logic
+├── translator.py            # Terminal-based Python app
+├── screenshot.png           # UI preview image (optional)
+└── README.md                # Project info
+🧪 Run Instructions
+✅ Web App
+Clone the repository:
+
+bash
+Copy
+Edit
+git clone https://github.com/your-username/morse-code-translator.git
+cd morse-code-translator
+Open index.html in your web browser.
+
+💡 You can also serve it locally with:
+
+bash
+Copy
+Edit
+python -m http.server
+🐍 Terminal (Python) Version
+Make sure Python is installed (python --version).
+
+Run the script:
+
+bash
+Copy
+Edit
+python translator.py
+✅ Works in most terminal environments (Windows, macOS, Linux).
+
+🛠️ Tech Stack
+Frontend: HTML5, CSS3, JavaScript (Vanilla)
+
+Backend (CLI): Python 3
+
+Audio: Web Audio API for web, winsound or playsound for CLI
+
+📋 TODO / Ideas
+🎙️ Decode Morse from microphone input
+
+📤 Export translated text as .txt file
+
+🌐 Deploy web app via GitHub Pages
+
+🎨 Add themes or animation to UI
+
+🤝 Contributing
+Feel free to fork the repo and submit pull requests. Suggestions, improvements, and additional features are always welcome!
+
