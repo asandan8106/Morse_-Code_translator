@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morse Code Translator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+      text-align: center;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1em;
+    }
+    select, button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      font-weight: bold;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Morse Code Translator</h1>
+
+  <select id="mode">
+    <option value="toMorse">English to Morse</option>
+    <option value="fromMorse">Morse to English</option>
+  </select>
+
+  <br/>
+
+  <textarea id="input" placeholder="Enter your message here..."></textarea>
+  <br/>
+
+  <button onclick="translate()">Translate</button>
+
+  <div id="output"></div>
+
+  <script>
+    const morseDict = {
+      'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..',
+      'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
+      'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+      'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
+      'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+      'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+      'Y': '-.--', 'Z': '--..',
+      '1': '.----', '2': '..---', '3': '...--',
+      '4': '....-', '5': '.....', '6': '-....',
+      '7': '--...', '8': '---..', '9': '----.', '0': '-----',
+      ' ': '/', '-': '-....-', '!': '-.-.--', '.': '.-.-.-', '?': '..--..'
+    };
+
+    const reverseDict = Object.fromEntries(
+      Object.entries(morseDict).map(([k, v]) => [v, k])
+    );
+
+    function translate() {
+      const mode = document.getElementById('mode').value;
+      const input = document.getElementById('input').value.trim();
+      let result = '';
+
+      if (mode === 'toMorse') {
+        result = input.toUpperCase().split('').map(char => morseDict[char] || '?').join(' ');
+      } else {
+        result = input.split(' ').map(code => reverseDict[code] || '?').join('');
+      }
+
+      document.getElementById('output').textContent = result;
+    }
+  </script>
+
+</body>
+</html>
