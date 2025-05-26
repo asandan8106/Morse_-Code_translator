@@ -18,7 +18,6 @@ A dual-interface Morse Code Translator that works both as a **web app** (with GU
 ### 🖥️ Terminal App (Python CLI)
 - 📥 Enter text via terminal
 - 🔄 Translate **text ⇄ Morse**
-- 🔊 Optional beep playback for Morse output (using `winsound` or `playsound`)
 - 📜 Simple menu-based interface
 - 🔁 Loop until user chooses to exit
 
@@ -39,36 +38,28 @@ morse-code-translator/
 ✅ Web App
 Clone the repository:
 
-bash
-Copy
-Edit
+
 git clone https://github.com/your-username/morse-code-translator.git
 cd morse-code-translator
 Open index.html in your web browser.
 
 💡 You can also serve it locally with:
 
-bash
-Copy
-Edit
+
 python -m http.server
 🐍 Terminal (Python) Version
 Make sure Python is installed (python --version).
 
 Run the script:
 
-bash
-Copy
-Edit
-python translator.py
+
+C:\Users\Capaciti\AppData\Local\Programs\Python\Python311\python.exe translator.py
 ✅ Works in most terminal environments (Windows, macOS, Linux).
 
 🛠️ Tech Stack
 Frontend: HTML5, CSS3, JavaScript (Vanilla)
 
 Backend (CLI): Python 3
-
-Audio: Web Audio API for web, winsound or playsound for CLI
 
 📋 TODO / Ideas
 🎙️ Decode Morse from microphone input
