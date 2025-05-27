@@ -59,6 +59,9 @@ Frontend: HTML5, CSS3, JavaScript (Vanilla)
 
 Backend (CLI): Python 3
 
+DEPLOYMENT
+https://asandan8106.github.io/Morse_-Code_translator/
+
 ##📋 TODO / Ideas
 🎙️ Decode Morse from microphone input
 
